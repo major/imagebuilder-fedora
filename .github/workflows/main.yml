@@ -19,8 +19,6 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - name: Disable systemd-resolved
-
       - name: Checkout repo
         uses: actions/checkout@v2
 
@@ -37,7 +35,8 @@ jobs:
         with:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: latest ${{ github.sha }}
-          dockerfiles: ./Dockerfile
+          dockerfiles: |
+           ./Dockerfile
 
       - name: Push to GitHub Container Repository
         id: push-to-ghcr
