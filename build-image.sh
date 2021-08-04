@@ -22,11 +22,10 @@ composer-cli () {
 #     -v $(pwd)/shared:/repo \
 #     --name $CONTAINER_NAME \
 #     $DOCKER_IMAGE
-sudo podman run --rm -it --privileged \
+sudo podman run --rm --detach --privileged \
     -v $(pwd)/shared:/repo \
     --name $CONTAINER_NAME \
     $DOCKER_IMAGE
-podman ps
 
 # Wait for composer to be fully running.
 for i in `seq 1 10`; do
