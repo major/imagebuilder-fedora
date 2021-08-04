@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:rawhide
+FROM registry.fedoraproject.org/fedora:34
 RUN echo "nameserver 1.1.1.1" > /etc/resolv.conf
 RUN echo "fastestmirror=1" >> /etc/dnf/dnf.conf
 RUN mkdir -vp /etc/selinux && touch /etc/selinux/config
