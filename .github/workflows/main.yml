@@ -19,29 +19,32 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
+      - name: Disable systemd-resolved
+
       - name: Checkout repo
         uses: actions/checkout@v2
 
       - name: Log in to the Container registry
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        uses: redhat-actions/podman-login@v1
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Retrieve the previously built container (if it exists)
-        run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} || true
+      - name: Build image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: latest ${{ github.sha }}
+          dockerfiles: ./Dockerfile
 
-      - name: Build Image Builder container
-        run: |
-          docker build --network host \
-            -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
-            -f Dockerfile \
-            --cache-from=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
-            .
-
-      - name: Push the container
-        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      - name: Push to GitHub Container Repository
+        id: push-to-ghcr
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ steps.build-image.outputs.tags }}
 
       - name: Fill in the AWS template
         run: |

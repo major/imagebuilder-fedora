@@ -9,16 +9,16 @@ SHIP_TO_AWS=yes
 # Comes from GitHub actions environment variables.
 DOCKER_IMAGE=${REGISTRY}/${IMAGE_NAME}:latest
 
-docker-exec () {
-    docker exec -t $CONTAINER_NAME $@
+podman-exec () {
+    podman exec -t $CONTAINER_NAME $@
 }
 
 composer-cli () {
-    docker-exec composer-cli $@
+    podman-exec composer-cli $@
 }
 
-# Start the docker container.
-docker run --detach --rm --privileged \
+# Start the container.
+podman run --detach --rm --privileged \
     -v $(pwd)/shared:/repo \
     --name $CONTAINER_NAME \
     $DOCKER_IMAGE
@@ -44,7 +44,7 @@ fi
 COMPOSE_ID=$(jq -r '.build_id' compose_start.json)
 
 # Watch the logs while the build runs.
-docker-exec journalctl -af &
+podman-exec journalctl -af &
 
 while true; do
     composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
@@ -60,7 +60,7 @@ done
 
 if [[ $COMPOSE_STATUS != FINISHED ]]; then
     composer-cli compose logs ${COMPOSE_ID}
-    docker-exec tar -axf /${COMPOSE_ID}-logs.tar logs/osbuild.log -O
+    podman-exec tar -axf /${COMPOSE_ID}-logs.tar logs/osbuild.log -O
     echo "Something went wrong with the compose. 😢"
     exit 1
 fi
