@@ -2,13 +2,14 @@
 set -euxo pipefail
 
 BLUEPRINT_NAME=fedora
+CONTAINER_NAME=imagebuilder
 SHIP_TO_AWS=yes
 
 # Comes from GitHub actions environment variables.
 DOCKER_IMAGE=${REGISTRY}/${IMAGE_NAME}:latest
 
 docker-exec () {
-    docker exec -t $DOCKER_IMAGE $@
+    docker exec -t $CONTAINER_NAME $@
 }
 
 composer-cli () {
@@ -18,7 +19,7 @@ composer-cli () {
 # Start the docker container.
 docker run --detach --rm --privileged \
     -v $(pwd)/shared:/repo \
-    --name imagebuilder \
+    --name $CONTAINER_NAME \
     $DOCKER_IMAGE
 
 # Wait for composer to be fully running.
