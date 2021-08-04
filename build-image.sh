@@ -45,14 +45,14 @@ else
     composer-cli --json compose start ${BLUEPRINT_NAME} ami | tee compose_start.json
 fi
 
-COMPOSE_ID=$(jq -r '.build_id' compose_start.json)
+COMPOSE_ID=$(jq -r '.body.build_id' compose_start.json)
 
 # Watch the logs while the build runs.
 podman-exec journalctl -af &
 
 while true; do
     composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
-    COMPOSE_STATUS=$(jq -r '.queue_status' compose_info.json)
+    COMPOSE_STATUS=$(jq -r '.body.queue_status' compose_info.json)
 
     # Is the compose finished?
     if [[ $COMPOSE_STATUS != RUNNING ]] && [[ $COMPOSE_STATUS != WAITING ]]; then
