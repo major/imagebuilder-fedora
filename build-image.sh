@@ -53,18 +53,24 @@ COMPOSE_ID=$(jq -r '.body.build_id' compose_start.json)
 # Watch the logs while the build runs.
 podman-exec journalctl -af &
 
+COUNTER=0
 while true; do
     composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
     COMPOSE_STATUS=$(jq -r '.body.queue_status' compose_info.json)
 
-    echo "💤 Waiting for the compose to finish"
+    # Print a status line once per minute.
+    if [ $((COUNTER%60)) -eq 0 ]; then
+        echo "💤 Waiting for the compose to finish at $(date +%H:%M:%S)"
+    fi
 
     # Is the compose finished?
     if [[ $COMPOSE_STATUS != RUNNING ]] && [[ $COMPOSE_STATUS != WAITING ]]; then
         echo "🎉 Compose finished."
         break
     fi
-    sleep 5
+    sleep 1
+
+    let COUNTER=COUNTER+1
 done
 
 if [[ $COMPOSE_STATUS != FINISHED ]]; then
