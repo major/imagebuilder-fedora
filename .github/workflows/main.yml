@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Image Builder container
         run: |
-          docker build \
+          docker build --network host \
             -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
             -f Dockerfile \
             --cache-from=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \

@@ -3,6 +3,7 @@ set -euxo pipefail
 
 BLUEPRINT_NAME=fedora
 CONTAINER_NAME=imagebuilder
+IMAGE_UUID=$(uuidgen)
 SHIP_TO_AWS=yes
 
 # Comes from GitHub actions environment variables.
@@ -32,8 +33,6 @@ done
 composer-cli blueprints push /repo/${BLUEPRINT_NAME}.toml
 composer-cli blueprints depsolve ${BLUEPRINT_NAME} > /dev/null
 composer-cli blueprints list
-
-IMAGE_UUID=$(docker-exec uuid)
 
 # Start the build.
 if [[ $SHIP_TO_AWS == "yes" ]]; then

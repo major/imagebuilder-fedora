@@ -1,5 +1,5 @@
 name = "fedora"
-description = "Fedora 34 from GitHub Actions"
+description = "Fedora rawhide from GitHub Actions"
 version = "0.0.2"
 modules = []
 groups = []
