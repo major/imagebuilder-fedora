@@ -44,6 +44,7 @@ jobs:
         with:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: ${{ steps.build-image.outputs.tags }}
+          registry: ${{ env.REGISTRY }}/${{ github.actor }}
 
       - name: Fill in the AWS template
         run: |
