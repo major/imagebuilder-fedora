@@ -17,6 +17,7 @@ jobs:
     steps:
       - name: Check resolv.conf
         run: |
+          sudo resolvectl dns link eth0 1.1.1.1 1.0.0.1
           cat /etc/resolv.conf
           resolvectl status
 
