@@ -10,7 +10,7 @@ SHIP_TO_AWS=yes
 DOCKER_IMAGE=${REGISTRY}/${IMAGE_NAME}:latest
 
 podman-exec () {
-    podman exec -t $CONTAINER_NAME $@
+    sudo podman exec -t $CONTAINER_NAME $@
 }
 
 composer-cli () {
@@ -22,7 +22,7 @@ composer-cli () {
 #     -v $(pwd)/shared:/repo \
 #     --name $CONTAINER_NAME \
 #     $DOCKER_IMAGE
-podman run --rm -it --privileged \
+sudo podman run --rm -it --privileged \
     -v $(pwd)/shared:/repo \
     --name $CONTAINER_NAME \
     $DOCKER_IMAGE
