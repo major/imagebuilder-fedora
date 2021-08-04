@@ -16,7 +16,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Disable systemd-resolved
-        run: systemctl disable --now systemd-resolved
+        run: |
+          sudo systemctl disable --now systemd-resolved
+          echo "nameserver 1.1.1.1" > /etc/resolv.conf
 
       - name: Checkout repo
         uses: actions/checkout@v2
