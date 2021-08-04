@@ -18,10 +18,15 @@ composer-cli () {
 }
 
 # Start the container.
-podman run --detach --rm --privileged \
+# podman run --detach --rm --privileged \
+#     -v $(pwd)/shared:/repo \
+#     --name $CONTAINER_NAME \
+#     $DOCKER_IMAGE
+podman run --rm --privileged \
     -v $(pwd)/shared:/repo \
     --name $CONTAINER_NAME \
     $DOCKER_IMAGE
+podman ps
 
 # Wait for composer to be fully running.
 for i in `seq 1 10`; do
