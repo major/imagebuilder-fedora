@@ -22,7 +22,7 @@ composer-cli () {
 #     -v $(pwd)/shared:/repo \
 #     --name $CONTAINER_NAME \
 #     $DOCKER_IMAGE
-podman run --rm --privileged \
+podman run --rm --it --privileged \
     -v $(pwd)/shared:/repo \
     --name $CONTAINER_NAME \
     $DOCKER_IMAGE
