@@ -2,6 +2,8 @@
 
 [![Deploy images](https://github.com/major/imagebuilder-fedora/actions/workflows/main.yml/badge.svg)](https://github.com/major/imagebuilder-fedora/actions/workflows/main.yml)
 
+![doc/box.gif](doc/box.gif)
+
 This repository contains a proof of concept for building Fedora images with
 Image Builder and then deploying those images to AWS using GitHub Actions. It
 takes less than 15 minutes to turn a basic image blueprint into a
@@ -54,6 +56,12 @@ To run a build, use the `workflow_dispatch` trigger in your GitHub workflows
 listing or change any of the blueprints in the repository. You can add, remove,
 or change which blueprints to build by adusting the `matrix.blueprint` list
 inside the [GitHub actions workflow] file.
+
+You should be able to see the AMIs and snapshots inside your AWS account:
+
+![doc/aws-ami.png](doc/aws-ami.png)
+
+![doc/aws-snapshot.png](doc/aws-snapshot.png)
 
 ## Something is broken! 😡
 
