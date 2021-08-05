@@ -1,0 +1,9 @@
+name = "fedora-packager"
+description = "Fedora packager - rawhide"
+version = "0.0.2"
+modules = []
+groups = []
+
+[[packages]]
+name = "fedora-packager"
+version = "*"

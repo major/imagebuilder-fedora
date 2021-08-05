@@ -11,9 +11,17 @@ on:
       - 'README.md'
   workflow_dispatch:
 
+env:
+  CONTAINER: ghcr.io/major/imagebuilder:fedora-rawhide
+
 jobs:
   build:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        blueprint:
+          - fedora-imagebuilder
+          - fedora-packager
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -26,8 +34,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_S3_BUCKET: major-aws-image-import
           AWS_DEFAULT_REGION: us-east-1
+          IMAGE_KEY: "${{ matrix.blueprint }}-${{ github.run_id }}"
 
       - name: Run the build
         run: ./build-image.sh
         env:
-          CONTAINER: ghcr.io/major/imagebuilder:fedora-rawhide
+          BLUEPRINT_NAME: ${{ matrix.blueprint }}
+          IMAGE_KEY: "${{ matrix.blueprint }}-${{ github.run_id }}"

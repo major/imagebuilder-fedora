@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-BLUEPRINT_NAME=fedora
 CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
 SHIP_TO_AWS=yes
@@ -37,8 +36,7 @@ composer-cli blueprints depsolve ${BLUEPRINT_NAME} > /dev/null
 if [[ $SHIP_TO_AWS == "yes" ]]; then
     echo "🛠 Build the image and ship to AWS"
     composer-cli --json \
-        compose start ${BLUEPRINT_NAME} ami \
-        github-actions-${IMAGE_UUID} /repo/aws-config.toml \
+        compose start $BLUEPRINT_NAME ami $IMAGE_KEY /repo/aws-config.toml \
         | tee compose_start.json > /dev/null
 else
     echo "🛠 Build the image"
