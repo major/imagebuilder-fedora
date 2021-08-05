@@ -2,7 +2,7 @@
 set -euo pipefail
 
 BLUEPRINT_NAME=fedora
-COMPOSE_SIZE_MIB=3072
+COMPOSE_SIZE_MIB=4096
 CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
 SHIP_TO_AWS=yes
