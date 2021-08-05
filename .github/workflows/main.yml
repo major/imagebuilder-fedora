@@ -11,41 +11,10 @@ on:
       - 'README.md'
   workflow_dispatch:
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Log in to the Container registry
-        uses: redhat-actions/podman-login@v1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build image
-        id: build-image
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: latest ${{ github.sha }}
-          dockerfiles: |
-           ./Dockerfile
-
-      - name: Push to GitHub Container Repository
-        id: push-to-ghcr
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ env.IMAGE_NAME }}
-          tags: ${{ steps.build-image.outputs.tags }}
-          registry: ${{ env.REGISTRY }}
-
       - name: Fill in the AWS template
         run: |
           cat shared/aws-template.toml | envsubst > shared/aws-config.toml
@@ -57,3 +26,5 @@ jobs:
 
       - name: Run the build
         run: ./build-image.sh
+        env:
+          CONTAINER: ghcr.io/major/imagebuilder:fedora-rawhide

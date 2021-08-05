@@ -2,13 +2,10 @@
 set -euo pipefail
 
 BLUEPRINT_NAME=fedora
-COMPOSE_SIZE_MIB=3000
+COMPOSE_SIZE_MIB=3072
 CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
 SHIP_TO_AWS=yes
-
-# Comes from GitHub actions environment variables.
-DOCKER_IMAGE=${REGISTRY}/${IMAGE_NAME}:latest
 
 podman-exec () {
     sudo podman exec -t $CONTAINER_NAME $@
@@ -23,7 +20,7 @@ echo "🚀 Launching the container"
 sudo podman run --rm --detach --privileged \
     -v $(pwd)/shared:/repo \
     --name $CONTAINER_NAME \
-    $DOCKER_IMAGE
+    $CONTAINER
 
 # Wait for composer to be fully running.
 echo "⏱ Waiting for composer to start"
