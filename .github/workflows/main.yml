@@ -15,6 +15,9 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
       - name: Fill in the AWS template
         run: |
           cat shared/aws-template.toml | envsubst > shared/aws-config.toml
