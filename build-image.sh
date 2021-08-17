@@ -5,7 +5,7 @@ CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
 SHIP_TO_AWS=yes
 
-if grep -q "fedora" <<< $CONTAINER_NAME; then
+if grep -q "fedora" <<< $CONTAINER; then
     JSON_PREFIX=".body"
 else
     JSON_PREFIX=""
@@ -56,7 +56,7 @@ podman-exec journalctl -af &
 
 COUNTER=0
 while true; do
-    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json
+    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
     COMPOSE_STATUS=$(jq -r "${JSON_PREFIX}.queue_status" compose_info.json)
 
     # Print a status line once per minute.
