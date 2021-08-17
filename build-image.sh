@@ -31,13 +31,13 @@ echo "📥 Pushing the blueprint"
 composer-cli blueprints push /repo/${BLUEPRINT_NAME}.toml
 
 echo "🔎 Solving dependencies in the blueprint"
-composer-cli blueprints depsolve ${BLUEPRINT_NAME} > /dev/null
+composer-cli blueprints depsolve ${BLUEPRINT_NAME}
 
 if [[ $SHIP_TO_AWS == "yes" ]]; then
     echo "🛠 Build the image and ship to AWS"
     composer-cli --json \
         compose start $BLUEPRINT_NAME ami $IMAGE_KEY /repo/aws-config.toml \
-        | tee compose_start.json > /dev/null
+        | tee compose_start.json
 else
     echo "🛠 Build the image"
     composer-cli --json compose start ${BLUEPRINT_NAME} ami | tee compose_start.json
@@ -50,7 +50,7 @@ podman-exec journalctl -af &
 
 COUNTER=0
 while true; do
-    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
+    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json
     COMPOSE_STATUS=$(jq -r '.body.queue_status' compose_info.json)
 
     # Print a status line once per minute.
