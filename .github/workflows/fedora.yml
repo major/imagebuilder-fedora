@@ -1,4 +1,4 @@
-name: Deploy images
+name: Deploy Fedora images
 
 on:
   push:
