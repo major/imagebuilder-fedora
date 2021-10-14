@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  CONTAINER: ghcr.io/major/imagebuilder:fedora-rawhide
+  CONTAINER: ghcr.io/major/imagebuilder:fedora-35
 
 jobs:
   build:
