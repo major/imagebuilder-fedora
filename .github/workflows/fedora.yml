@@ -24,7 +24,7 @@ jobs:
           - fedora-packager
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Fill in the AWS template
         run: |
