@@ -2,17 +2,17 @@ name: Deploy Fedora images
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'README.md'
+      - "README.md"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'README.md'
+      - "README.md"
   workflow_dispatch:
 
 env:
-  CONTAINER: ghcr.io/major/imagebuilder:fedora-35
+  CONTAINER: ghcr.io/major/imagebuilder:fedora-36
 
 jobs:
   build:
