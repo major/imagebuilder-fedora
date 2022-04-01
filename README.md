@@ -1,6 +1,6 @@
 # Build Fedora AWS images with Image Builder in GitHub Actions
 
-[![Deploy images](https://github.com/major/imagebuilder-fedora/actions/workflows/main.yml/badge.svg)](https://github.com/major/imagebuilder-fedora/actions/workflows/main.yml)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/major/imagebuilder-fedora/Deploy%20images) https://img.shields.io/github/license/major/imagebuilder-fedora
 
 ![doc/box.gif](doc/box.gif)
 
