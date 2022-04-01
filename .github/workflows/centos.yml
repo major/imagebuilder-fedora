@@ -2,17 +2,17 @@ name: Deploy CentOS images
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'README.md'
+      - "README.md"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - 'README.md'
+      - "README.md"
   workflow_dispatch:
 
 env:
-  CONTAINER: ghcr.io/major/imagebuilder:centos-stream8
+  CONTAINER: ghcr.io/major/imagebuilder:centos-stream9
 
 jobs:
   build:
