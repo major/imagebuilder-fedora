@@ -1,15 +1,9 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
 CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
 SHIP_TO_AWS=yes
-
-if grep -q "fedora" <<< $CONTAINER; then
-    JSON_PREFIX=".body"
-else
-    JSON_PREFIX=""
-fi
 
 podman-exec () {
     sudo podman exec -t $CONTAINER_NAME $@
@@ -49,7 +43,7 @@ else
     composer-cli --json compose start ${BLUEPRINT_NAME} ami | tee compose_start.json
 fi
 
-COMPOSE_ID=$(jq -r "${JSON_PREFIX}.build_id" compose_start.json)
+COMPOSE_ID=$(jq -r ".body.build_id" compose_start.json)
 
 # Watch the logs while the build runs.
 podman-exec journalctl -af &
@@ -57,7 +51,7 @@ podman-exec journalctl -af &
 COUNTER=0
 while true; do
     composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
-    COMPOSE_STATUS=$(jq -r "${JSON_PREFIX}.queue_status" compose_info.json)
+    COMPOSE_STATUS=$(jq -r ".body.queue_status" compose_info.json)
 
     # Print a status line once per minute.
     if [ $((COUNTER%60)) -eq 0 ]; then
