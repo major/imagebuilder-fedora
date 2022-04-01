@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -euxo pipefail
 
 CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
