@@ -69,7 +69,7 @@ while true; do
         echo "🎉 Compose finished."
         break
     fi
-    sleep 1
+    sleep 15
 
     let COUNTER=COUNTER+1
 done
