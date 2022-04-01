@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
 CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
@@ -48,9 +48,13 @@ COMPOSE_ID=$(jq -r ".body.build_id" compose_start.json)
 # Watch the logs while the build runs.
 podman-exec journalctl -af &
 
+# Sometimes osbuild-composer gets a bit grumpy if we check for status immediately and we
+# end up with JSON that is partially built. We wait just a moment before checking it.
+sleep 10
+
 COUNTER=0
 while true; do
-    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
+    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json
     COMPOSE_STATUS=$(jq -r ".body.queue_status" compose_info.json)
 
     # Print a status line once per minute.
