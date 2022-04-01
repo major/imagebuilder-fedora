@@ -1,4 +1,4 @@
-name: Deploy Fedora images
+name: Deploy images
 
 on:
   push:
@@ -11,17 +11,18 @@ on:
       - "README.md"
   workflow_dispatch:
 
-env:
-  CONTAINER: ghcr.io/major/imagebuilder:fedora-36
-
 jobs:
   build:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        blueprint:
-          - fedora-imagebuilder
-          - fedora-packager
+        include:
+          - blueprint: fedora-imagebuilder
+            container_tag: fedora-36
+          - blueprint: fedora-packager
+            container_tag: fedora-36
+          - blueprint: centos-minimal
+            container_tag: centos-stream9
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -41,3 +42,4 @@ jobs:
         env:
           BLUEPRINT_NAME: ${{ matrix.blueprint }}
           IMAGE_KEY: "${{ matrix.blueprint }}-${{ github.run_id }}"
+          CONTAINER: "ghcr.io/major/imagebuilder:${{ matrix.container_tag }}"
