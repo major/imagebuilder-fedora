@@ -19,8 +19,8 @@ jobs:
         include:
           - blueprint: fedora-imagebuilder
             container_tag: fedora-35
-          - blueprint: fedora-packager
-            container_tag: fedora-35
+          # - blueprint: fedora-packager
+          #   container_tag: fedora-35
           - blueprint: centos-minimal
             container_tag: centos-stream9
     steps:
