@@ -1,8 +1,0 @@
-provider = "aws"
-
-[settings]
-accessKeyID = "$AWS_ACCESS_KEY_ID"
-secretAccessKey = "$AWS_SECRET_ACCESS_KEY"
-bucket = "$AWS_S3_BUCKET"
-region = "$AWS_DEFAULT_REGION"
-key = "$IMAGE_KEY"

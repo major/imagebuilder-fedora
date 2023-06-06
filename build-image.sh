@@ -30,18 +30,8 @@ done
 echo "📥 Pushing the blueprint"
 composer-cli blueprints push /repo/${BLUEPRINT_NAME}.toml
 
-echo "🔎 Solving dependencies in the blueprint"
-composer-cli blueprints depsolve ${BLUEPRINT_NAME}
-
-if [[ $SHIP_TO_AWS == "yes" ]]; then
-    echo "🛠 Build the image and ship to AWS"
-    composer-cli --json \
-        compose start $BLUEPRINT_NAME ami $IMAGE_KEY /repo/aws-config.toml \
-        | tee compose_start.json
-else
-    echo "🛠 Build the image"
-    composer-cli --json compose start ${BLUEPRINT_NAME} ami | tee compose_start.json
-fi
+echo "🛠 Build the image"
+composer-cli --json compose start ${BLUEPRINT_NAME} image-installer | tee compose_start.json
 
 COMPOSE_ID=$(jq -r ".body.build_id" compose_start.json)
 

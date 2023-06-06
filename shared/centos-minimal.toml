@@ -1,9 +1,0 @@
-name = "centos-minimal"
-description = "Image Builder - CentOS Stream Minimal"
-version = "0.0.2"
-modules = []
-groups = []
-
-[[packages]]
-name = "vim"
-version = "*"
