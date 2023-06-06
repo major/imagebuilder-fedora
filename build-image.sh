@@ -33,7 +33,7 @@ composer-cli blueprints push /repo/${BLUEPRINT_NAME}.toml
 echo "🛠 Build the image"
 composer-cli --json compose start ${BLUEPRINT_NAME} image-installer | tee compose_start.json
 
-COMPOSE_ID=$(jq -r ".body.build_id" compose_start.json)
+COMPOSE_ID=$(jq -r ".[0].body.build_id" compose_start.json)
 
 # Watch the logs while the build runs.
 podman-exec journalctl -af &
@@ -45,7 +45,7 @@ sleep 10
 COUNTER=0
 while true; do
     composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
-    COMPOSE_STATUS=$(jq -r ".body.queue_status" compose_info.json)
+    COMPOSE_STATUS=$(jq -r ".[0].body.queue_status" compose_info.json)
 
     # Print a status line once per minute.
     if [ $((COUNTER%60)) -eq 0 ]; then
