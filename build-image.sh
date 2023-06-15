@@ -31,7 +31,7 @@ echo "📥 Pushing the blueprint"
 composer-cli blueprints push /repo/${BLUEPRINT_NAME}.toml
 
 echo "🛠 Build the image"
-composer-cli --json compose start ${BLUEPRINT_NAME} image-installer | tee compose_start.json
+composer-cli --json compose start ${BLUEPRINT_NAME} qcow2 | tee compose_start.json
 
 COMPOSE_ID=$(jq -r ".[0].body.build_id" compose_start.json)
 

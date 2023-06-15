@@ -1,1 +1,5 @@
 name = "installer"
+
+[[customizations.filesystem]]
+mountpoint = "/var"
+size = "2 GiB"
