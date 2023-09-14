@@ -57,8 +57,7 @@ while true; do
     composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json >/dev/null
 
     # Sometimes tee isn't done writing by the time we check the status line below. 🐌
-    sleep 1
-
+    sleep 2
     COMPOSE_STATUS=$(jq -r ".[].body.queue_status" compose_info.json)
 
     # Print a status line once per minute.
