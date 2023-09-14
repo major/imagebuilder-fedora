@@ -5,11 +5,11 @@ CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
 SHIP_TO_AWS=yes
 
-podman-exec () {
+podman-exec() {
     sudo podman exec -t $CONTAINER_NAME $@
 }
 
-composer-cli () {
+composer-cli() {
     podman-exec composer-cli $@
 }
 
@@ -22,7 +22,7 @@ sudo podman run --rm --detach --privileged \
 
 # Wait for composer to be fully running.
 echo "⏱ Waiting for composer to start"
-for i in `seq 1 10`; do
+for i in $(seq 1 10); do
     sleep 1
     composer-cli status show && break
 done
@@ -36,8 +36,8 @@ composer-cli blueprints depsolve ${BLUEPRINT_NAME}
 if [[ $SHIP_TO_AWS == "yes" ]]; then
     echo "🛠 Build the image and ship to AWS"
     composer-cli --json \
-        compose start $BLUEPRINT_NAME ami $IMAGE_KEY /repo/aws-config.toml \
-        | tee compose_start.json
+        compose start $BLUEPRINT_NAME ami $IMAGE_KEY /repo/aws-config.toml |
+        tee compose_start.json
 else
     echo "🛠 Build the image"
     composer-cli --json compose start ${BLUEPRINT_NAME} ami | tee compose_start.json
@@ -54,11 +54,11 @@ sleep 10
 
 COUNTER=0
 while true; do
-    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
+    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json >/dev/null
     COMPOSE_STATUS=$(jq -r ".body.queue_status" compose_info.json)
 
     # Print a status line once per minute.
-    if [ $((COUNTER%60)) -eq 0 ]; then
+    if [ $((COUNTER % 60)) -eq 0 ]; then
         echo "💤 Waiting for the compose to finish at $(date +%H:%M:%S)"
     fi
 
