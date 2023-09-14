@@ -56,9 +56,9 @@ sleep 10
 
 COUNTER=0
 while true; do
-    composer-cli --json compose status | tee /output/compose_info.json
+    composer-cli --json compose status | tee compose_info.json
 
-    COMPOSE_STATUS=$(jq -r ".[].body.queue_status" output/compose_info.json)
+    COMPOSE_STATUS=$(jq -r --arg COMPOSE_ID "${COMPOSE_ID}" '.[].body[][] | select(.id==$COMPOSE_ID).queue_status' compose_info.json)
 
     # Print a status line once per minute.
     if [ $((COUNTER % 60)) -eq 0 ]; then
