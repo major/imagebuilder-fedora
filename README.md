@@ -33,7 +33,7 @@ which configurations need to be changed.
 ## How does the repository work? ⚙
 
 The [imagebuilder repository] builds containers with Image Builder pre-installed
-for CentOS Stream 8, Fedora 34, and Fedora rawhide. The [GitHub actions
+for CentOS Stream 9 and Fedora (latest stable). The [GitHub actions
 workflow] in this repository does the following:
 
 1. Populates the AWS configuration
