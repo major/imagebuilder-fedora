@@ -18,7 +18,7 @@ jobs:
       matrix:
         include:
           - blueprint: fedora-imagebuilder
-            container_tag: fedora-35
+            container_tag: fedora-latest
           # - blueprint: fedora-packager
           #   container_tag: fedora-35
           - blueprint: centos-minimal
