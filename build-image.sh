@@ -10,7 +10,7 @@ podman-exec() {
 }
 
 composer-cli() {
-    podman-exec composer-cli $@
+    podman-exec "composer-cli ${@}"
 }
 
 # Start the container.
