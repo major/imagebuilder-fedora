@@ -15,12 +15,11 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - blueprint: fedora-imagebuilder
             container_tag: fedora-latest
-          # - blueprint: fedora-packager
-          #   container_tag: fedora-35
           - blueprint: centos-minimal
             container_tag: centos-stream9
     steps:
