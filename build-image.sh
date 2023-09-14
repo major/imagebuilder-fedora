@@ -10,7 +10,7 @@ podman-exec() {
 }
 
 composer-cli() {
-    podman-exec "composer-cli ${@}"
+    podman-exec composer-cli ${@}
 }
 
 # Start the container.
@@ -56,7 +56,7 @@ sleep 10
 
 COUNTER=0
 while true; do
-    composer-cli "--json compose info \"${COMPOSE_ID}\" | tee /output/compose_info.json >/dev/null"
+    composer-cli --json compose status | tee /output/compose_info.json
 
     COMPOSE_STATUS=$(jq -r ".[].body.queue_status" output/compose_info.json)
 
