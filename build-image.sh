@@ -1,9 +1,9 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
 CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
-SHIP_TO_AWS=no
+SHIP_TO_AWS=yes
 
 podman-exec() {
     sudo podman exec -t $CONTAINER_NAME $@
