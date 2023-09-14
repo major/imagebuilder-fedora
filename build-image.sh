@@ -15,8 +15,10 @@ composer-cli() {
 
 # Start the container.
 echo "🚀 Launching the container"
+mkdir -vp shared output
 sudo podman run --rm --detach --privileged \
     -v $(pwd)/shared:/repo \
+    -v $(pwd)/output:/output \
     --name $CONTAINER_NAME \
     $CONTAINER
 
@@ -54,11 +56,9 @@ sleep 10
 
 COUNTER=0
 while true; do
-    composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json >/dev/null
+    composer-cli "--json compose info \"${COMPOSE_ID}\" | tee /output/compose_info.json >/dev/null"
 
-    # Sometimes tee isn't done writing by the time we check the status line below. 🐌
-    sleep 2
-    COMPOSE_STATUS=$(jq -r ".[].body.queue_status" compose_info.json)
+    COMPOSE_STATUS=$(jq -r ".[].body.queue_status" output/compose_info.json)
 
     # Print a status line once per minute.
     if [ $((COUNTER % 60)) -eq 0 ]; then
