@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -euxo pipefail
 
 CONTAINER_NAME=imagebuilder
 IMAGE_UUID=$(uuidgen)
@@ -43,7 +43,7 @@ else
     composer-cli --json compose start ${BLUEPRINT_NAME} ami | tee compose_start.json
 fi
 
-COMPOSE_ID=$(jq -r ".body.build_id" compose_start.json)
+COMPOSE_ID=$(jq -r ".[].body.build_id" compose_start.json)
 
 # Watch the logs while the build runs.
 podman-exec journalctl -af &
