@@ -56,7 +56,7 @@ sleep 10
 
 COUNTER=0
 while true; do
-    composer-cli --json compose status | tee compose_info.json
+    composer-cli --json compose status | tee compose_info.json >/dev/null
 
     COMPOSE_STATUS=$(jq -r --arg COMPOSE_ID "${COMPOSE_ID}" '.[].body[][] | select(.id==$COMPOSE_ID).queue_status' compose_info.json)
 
@@ -76,7 +76,7 @@ while true; do
 done
 
 if [[ $COMPOSE_STATUS != FINISHED ]]; then
-    composer-cli compose logs ${COMPOSE_ID}
+    composer-cli compose logs ${COMPOSE_ID} >/dev/null
     podman-exec tar -axf /${COMPOSE_ID}-logs.tar logs/osbuild.log -O
     echo "😢 Something went wrong with the compose"
     exit 1
