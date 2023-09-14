@@ -2,6 +2,8 @@
 
 ![doc/box.gif](doc/box.gif)
 
+[![Deploy images](https://github.com/major/imagebuilder-fedora/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/major/imagebuilder-fedora/actions/workflows/build.yml)
+
 This repository contains a proof of concept for building Fedora images with
 Image Builder and then deploying those images to AWS using GitHub Actions. It
 takes less than 15 minutes to turn a basic image blueprint into a
