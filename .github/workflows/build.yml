@@ -42,4 +42,4 @@ jobs:
         env:
           BLUEPRINT_NAME: ${{ matrix.blueprint }}
           IMAGE_KEY: "${{ matrix.blueprint }}-${{ github.run_id }}"
-          CONTAINER: "ghcr.io/major/imagebuilder:${{ matrix.container_tag }}"
+          CONTAINER: "ghcr.io/major/imagebuilder/imagebuilder/${{ matrix.container_tag }}:latest"
