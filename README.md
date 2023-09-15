@@ -68,4 +68,4 @@ You should be able to see the AMIs and snapshots inside your AWS account:
 Feel free to open an issue, or better yet, make a pull request!
 
 [imagebuilder repository]: https://github.com/major/imagebuilder/
-[GitHub actions workflow]: blob/main/.github/workflows/build_containers.yml
+[GitHub actions workflow]: https://github.com/major/imagebuilder-fedora/blob/main/.github/workflows/build.yml
